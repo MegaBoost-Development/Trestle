@@ -1,0 +1,24 @@
+{
+  "name": "trestle",
+  "version": "1.0.0",
+  "description": "Server jar used to create multiplayer instances for Adventurer.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node process.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MegaBoost-Development/Trestle.git"
+  },
+  "author": "Mark C. Viggiano Jr.",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MegaBoost-Development/Trestle/issues"
+  },
+  "homepage": "https://github.com/MegaBoost-Development/Trestle#readme",
+  "dependencies": {
+    "express": "^4.17.3",
+    "http": "0.0.1-security",
+    "socket.io": "^4.4.1"
+  }
+}
