@@ -2,6 +2,8 @@ const express = require("express");
 require('events').EventEmitter.defaultMaxListeners = 0;
 const Player = require("./entity/_player.js");
 const PlayerJoinEvent = require("./network/_playerJoinEvent.js");
+const ProgramState = require("./utils/_programState.js");
+const STATE = ProgramState.DEVELOPMENT;
 
 class Server {
   constructor() {
@@ -20,6 +22,14 @@ class Server {
   }
 
   registerSocketServer() {
+    if (STATE == ProgramState.PRODUCTION) {
+      console.log("###########################################");
+      console.log(" Override function: `registerSocketServer` ");
+      console.log("###########################################");
+      process.exit();
+      return; // just in case ;)
+    }
+
     this.ioServer.on("connection", (socket) => {
 
       socket.on("PlayerJoinEvent", (data) => PlayerJoinEvent.execute(this, socket, data));
