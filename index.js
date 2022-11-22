@@ -2,6 +2,7 @@ const express = require("express");
 require('events').EventEmitter.defaultMaxListeners = 0;
 const Player = require("./entity/_player.js");
 const PlayerJoinEvent = require("./network/_playerJoinEvent.js");
+const PlayerChatEvent = require("./network/_playerChatEvent.js");
 const PlayerDisconnectEvent = require("./network/_playerDisconnectEvent.js")
 const ProgramState = require("./utils/_programState.js");
 const STATE = ProgramState.DEVELOPMENT;
@@ -33,6 +34,7 @@ class Server {
 
     this.ioServer.on("connection", (socket) => {
       socket.on("PlayerJoinEvent", (data) => PlayerJoinEvent.execute(this, socket, data));
+      socket.on("PlayerChatEvent", (data) => PlayerChatEvent.execute(this, socket, data));
       socket.on("disconnect", () => PlayerDisconnectEvent.execute(this, socket, null));
     })
   }
