@@ -1,0 +1,20 @@
+{
+
+  "mysql": {
+    "host": "database_host",
+    "username": "your_user_name",
+    "password": "your_password",
+    "database": "database_to_use"
+  },
+
+  "loadBalancer": {
+    "port": 8000,
+    "minServerCount": 2,
+    "maxServerCount": 100
+  },
+
+  "gameServer": {
+    "maxPlayerCount": 25
+  }
+
+}
