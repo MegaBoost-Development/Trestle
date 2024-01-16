@@ -1,6 +1,6 @@
 // Entry point.
-const Server = require("./index.js");
-const instance = new Server();
+const LoadBalancer = require("./loadbalancer/LoadBalancer.js");
+const instance = new LoadBalancer();
 instance.start();
 
 // Handling exceptions:

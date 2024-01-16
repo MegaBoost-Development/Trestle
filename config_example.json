@@ -8,9 +8,12 @@
   },
 
   "loadBalancer": {
+    "protocol": "http/https/",
+    "ip": "124.456.789",
     "port": 8000,
     "minServerCount": 2,
-    "maxServerCount": 100
+    "maxServerCount": 100,
+    "accessToken": "your_key_to_verify_game_servers"
   },
 
   "gameServer": {
