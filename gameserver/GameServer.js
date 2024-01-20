@@ -13,6 +13,7 @@ class GameServer {
   #name;
   #port;
   #players;
+  #playerNameToId;
   #maxPlayerCount;
   #loadBalancerSocket;
 
@@ -21,6 +22,7 @@ class GameServer {
     this.#name = name;
     this.#port = port;
     this.#players = new Map();
+    this.#playerNameToId = new Map();
     this.#maxPlayerCount = CONFIG.gameServer.maxPlayerCount;
     this.#loadBalancerSocket = io(`${CONFIG.loadBalancer.protocol}://${CONFIG.loadBalancer.ip}:${CONFIG.loadBalancer.port}`, {
       auth: {
@@ -32,6 +34,40 @@ class GameServer {
 
   log(info) {
     console.log(`[${process.pid}] [GameServer] ${info}`);
+  }
+
+  getName() {
+    return this.#name;
+  }
+
+  getPort() {
+    return this.#port;
+  }
+
+  getPlayerCount() {
+    return this.getPlayers().size();
+  }
+
+  addPlayer(player) {
+    this.#players.set(player.getId(), player);
+    this.#playerNameToId.set(player.getName(), player.getId());
+    this.#loadBalancerSocket.emit("playernetworkconnect", {
+      name: player.getName(),
+      id: player.getId()
+    })
+  }
+
+  removePlayer(player) {
+    this.#players.remove(player.getId());
+    this.#playerNameToId.remove(player.getName());
+  }
+
+  getPlayers() {
+    return this.#players.entries();
+  }
+
+  isFull() {
+    return this.getPlayerCount() >= MAX_SIZE;
   }
 
   async registerAppDetails() {

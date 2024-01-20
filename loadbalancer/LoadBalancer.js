@@ -13,6 +13,8 @@ class LoadBalancer {
 
   #count;
   #gameServers;
+  #proxyPlayers;
+  #proxyPlayerNameMap;
   #minServerCount;
   #maxServerCount;
 
@@ -20,6 +22,8 @@ class LoadBalancer {
 
     this.#count = 1;
     this.#gameServers = new Map();
+    this.#proxyPlayers = new Map();
+    this.#proxyPlayerNameMap = new Map();
     this.#minServerCount = CONFIG.loadBalancer.minServerCount;
     this.#maxServerCount = CONFIG.loadBalancer.maxServerCount;
 
@@ -35,6 +39,24 @@ class LoadBalancer {
 
   getGameServerById(id) {
     this.#gameServers.get(id);
+  }
+
+  addProxyPlayer(proxyPlayer) {
+    this.#proxyPlayers.set(proxyPlayer.getId(), proxyPlayer);
+    this.#proxyPlayerNameMap.set(proxyPlayer.getName(), proxyPlayer);
+  }
+
+  getProxyPlayerById(id) {
+    return this.#proxyPlayers.get(id);
+  }
+
+  getProxyPlayerByName(name) {
+    return this.#proxyPlayerNameMap.get(name);
+  }
+
+  removeProxyPlayer(id) {
+    this.#proxyPlayers.remove(id);
+    this.#proxyPlayerNameMap.remove(id);
   }
 
   log(info) {
@@ -104,7 +126,7 @@ class LoadBalancer {
           let listener = require(`./listeners/${file}`);
           let name = file.split(".")[0];
 
-          socket.on(name, (packetData) => listener(this, socket, packetData));
+          socket.on(name, (packetData) => listener(this, socket, this.getGameServerById(socket.id), packetData));
 
           registered.push(name);
         });

@@ -1,6 +1,6 @@
 const GameServer = require("../GameServer.js");
 
-module.exports = async (loadBalancer, client, packetData) => {
+module.exports = async (loadBalancer, client, gameServer, packetData) => {
 
   let id = client.id;
   let name = packetData.name;

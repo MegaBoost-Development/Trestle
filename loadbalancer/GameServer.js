@@ -10,12 +10,13 @@ class GameServer {
   #id;
   #name;
   #port;
-  #playerCount;
+  #players;
 
   constructor(id, name, port) {
     this.#id = id;
     this.#name = name;
     this.#port = port;
+    this.#players = new Map();
   }
 
   getId() {
@@ -31,15 +32,19 @@ class GameServer {
   }
 
   getPlayerCount() {
-    return this.#playerCount;
+    return this.getPlayers().length;
   }
 
-  addPlayer() {
-    this.#playerCount++;
+  addPlayer(player) {
+    this.#players.set(player.getId(), player);
   }
 
-  removePlayer() {
-    this.#playerCount--;
+  removePlayer(player) {
+    this.#players.remove(player.getId());
+  }
+
+  getPlayers() {
+    return this.#players.entries();
   }
 
   isFull() {

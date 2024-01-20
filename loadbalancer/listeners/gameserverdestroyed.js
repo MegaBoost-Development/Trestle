@@ -1,6 +1,6 @@
-module.exports.run = async (loadBalancer, client, packetData) => {
+module.exports = async (loadBalancer, client, gameServer, packetData) => {
 
-  loadBalancer.log(`Disconnected from ${loadBalancer.getGameServerById(client.id).getName()}`);
+  loadBalancer.log(`Disconnected from ${gameServer.getName()}`);
   loadBalancer.removeGameServer(client.id);
 
 }
