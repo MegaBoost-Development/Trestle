@@ -38,7 +38,7 @@ class LoadBalancer {
   }
 
   getGameServerById(id) {
-    this.#gameServers.get(id);
+    return this.#gameServers.get(id);
   }
 
   addProxyPlayer(proxyPlayer) {

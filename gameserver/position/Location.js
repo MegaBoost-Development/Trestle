@@ -1,15 +1,15 @@
+const CONFIG = require("../../config.json");
+
 class Location {
 
   #x;
   #y;
   #world;
-  #chunk;
 
-  constructor(x, y, world) {
+  constructor(x = 0, y = 0, world = CONFIG.gameServer.defaultGameWorld) {
     this.#x = x;
     this.#y = y;
     this.#world = world;
-    if (world != null && world != undefined) world.getChunkByPosition(x, y);
   }
 
   static CoordinateInstance(x, y) {
@@ -40,16 +40,10 @@ class Location {
     this.#world = world;
   }
 
-  getChunk() {
-    return this.#chunk;
-  }
-
-  setChunk(chunk) {
-    this.#chunk = chunk;
-  }
-
   isSameLocation(loc) {
-    return this.getX() == loc.getX() && this.getY() == loc.getY() && this.getChunk() == loc.getChunk() && this.getWorld() == loc.getWorld();
+    return this.getX() == loc.getX() && this.getY() == loc.getY() && this.getWorld() == loc.getWorld();
   }
 
 }
+
+module.exports = Location;

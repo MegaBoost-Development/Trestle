@@ -7,6 +7,6 @@ module.exports = async (loadBalancer, client, gameServer, packetData) => {
   let port = packetData.port;
 
   loadBalancer.addGameServer(new GameServer(id, name, port));
-  loadBalancer.log(`Connected to ${name}`);
+  loadBalancer.log(`Registered ${name} with id: ${id}`);
 
 }

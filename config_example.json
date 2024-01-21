@@ -17,7 +17,8 @@
   },
 
   "gameServer": {
-    "maxPlayerCount": 25
+    "maxPlayerCount": 25,
+    "defaultGameWorld": "world"
   }
 
 }

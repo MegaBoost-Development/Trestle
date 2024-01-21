@@ -33,7 +33,7 @@ class GameServer {
   }
 
   log(info) {
-    console.log(`[${process.pid}] [GameServer] ${info}`);
+    console.log(`[${process.pid}] [${this.getName()}] ${info}`);
   }
 
   getName() {
