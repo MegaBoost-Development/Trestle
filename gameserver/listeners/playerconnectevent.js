@@ -1,7 +1,7 @@
 const Player = require("../entity/Player.js");
 const CONFIG = require("../../config.json");
 
-module.exports = async (gameServer, client, packetData) => {
+module.exports = async (ioServer, gameServer, client, packetData) => {
   let name = packetData.name[0];
   let id = client.id;
   let x = packetData.x[0];

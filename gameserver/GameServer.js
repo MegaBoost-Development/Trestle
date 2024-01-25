@@ -60,6 +60,10 @@ class GameServer {
   removePlayer(player) {
     this.#players.remove(player.getId());
     this.#playerNameToId.remove(player.getName());
+    this.#loadBalancerSocket.emit("playernetworkdisconnect", {
+      name: player.getName(),
+      id: player.getId()
+    })
   }
 
   getPlayers() {
@@ -91,7 +95,7 @@ class GameServer {
           let listener = require(`./listeners/${file}`);
           let name = file.split(".")[0];
 
-          socket.on(name, (packetData) => listener(this, socket, packetData));
+          socket.on(name, (packetData) => listener(ioServer, this, socket, packetData));
 
           registered.push(name);
         });

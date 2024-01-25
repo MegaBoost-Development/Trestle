@@ -8,5 +8,5 @@ module.exports = async (loadBalancer, client, gameServer, packetData) => {
 
   gameServer.removePlayer(packetData.id);
   loadBalancer.removeProxyPlayer(packetData.id);
-
+  loadBalancer.log(`${packetData.name} has disconnected from the network.`);
 }

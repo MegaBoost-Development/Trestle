@@ -55,8 +55,8 @@ class LoadBalancer {
   }
 
   removeProxyPlayer(id) {
+    this.#proxyPlayerNameMap.remove(this.getProxyPlayerById(id).getName());
     this.#proxyPlayers.remove(id);
-    this.#proxyPlayerNameMap.remove(id);
   }
 
   log(info) {
