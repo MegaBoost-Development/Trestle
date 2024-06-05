@@ -13,6 +13,9 @@ module.exports = async (ioServer, gameServer, client, packetData) => {
 
   let player = new Player(name, id, x, y, speed, height, width, world)
   gameServer.addPlayer(player);
-  gameServer.log(`${name} connected with id: ${client.id}.`);
+  gameServer.log(`${name} connected with id: ${id}.`);
+  client.emit("PlayerId", id);
+  client.broadcast.emit("PlayerAllowedConnection", name, id, x, y, world);
+  ioServer.emit("PlayerSendChatMessage", "", `${name} has joined the game!`, 'y');
 
 }

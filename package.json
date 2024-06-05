@@ -17,9 +17,11 @@
   },
   "homepage": "https://github.com/MegaBoost-Development/Trestle#readme",
   "dependencies": {
+    "alea": "^1.0.1",
     "express": "^4.17.3",
     "helmet": "^7.1.0",
     "http": "0.0.1-security",
+    "simplex-noise": "^4.0.1",
     "socket.io": "^4.7.4",
     "socket.io-client": "^4.7.4",
     "sqlite3": "^5.1.7"

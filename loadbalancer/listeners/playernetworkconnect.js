@@ -10,6 +10,7 @@ module.exports = async (loadBalancer, client, gameServer, packetData) => {
 
   let proxyPlayer = new ProxyPlayer(packetData.name, packetData.id, client.id);
   gameServer.addPlayer(proxyPlayer);
+  loadBalancer.addProxyPlayer(proxyPlayer);
   loadBalancer.log(`${proxyPlayer.getName()} has joined the network with id: ${proxyPlayer.getId()}.`);
 
 }

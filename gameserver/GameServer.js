@@ -15,6 +15,7 @@ class GameServer {
   #players;
   #playerNameToId;
   #maxPlayerCount;
+  #worlds;
   #loadBalancerSocket;
 
   constructor(name, port) {
@@ -24,11 +25,16 @@ class GameServer {
     this.#players = new Map();
     this.#playerNameToId = new Map();
     this.#maxPlayerCount = CONFIG.gameServer.maxPlayerCount;
+    this.#worlds = new Map();
     this.#loadBalancerSocket = io(`${CONFIG.loadBalancer.protocol}://${CONFIG.loadBalancer.ip}:${CONFIG.loadBalancer.port}`, {
       auth: {
         token: CONFIG.loadBalancer.accessToken
       }
     });
+
+  }
+
+  tick() {
 
   }
 
@@ -57,9 +63,10 @@ class GameServer {
     })
   }
 
-  removePlayer(player) {
-    this.#players.remove(player.getId());
-    this.#playerNameToId.remove(player.getName());
+  removePlayer(id) {
+    let player = this.#players.get(id);
+    this.#playerNameToId.delete(player.getName());
+    this.#players.delete(id);
     this.#loadBalancerSocket.emit("playernetworkdisconnect", {
       name: player.getName(),
       id: player.getId()
@@ -70,8 +77,37 @@ class GameServer {
     return this.#players.entries();
   }
 
+  getPlayerById(id) {
+    return this.#players.get(id);
+  }
+
   isFull() {
     return this.getPlayerCount() >= MAX_SIZE;
+  }
+
+  addWorld(world) {
+    this.#worlds.set(world.getName(), world);
+  }
+
+  removeWorld(name, save) {
+    const world = this.getWorld(name);
+    if (world == null) {
+      this.log(`[WORLD] Error when removing ${name}, it was not found!`);
+      return;
+    }
+
+    if (save) {
+      this.log(`[WORLD] Saving ${name}...`);
+      world.save();
+      this.log(`[WORLD] Saved ${name}!`);
+    }
+
+    this.#worlds.delete(name);
+
+  }
+
+  getWorld(name) {
+    return this.#worlds.get(name);
   }
 
   async registerAppDetails() {
@@ -99,6 +135,9 @@ class GameServer {
 
           registered.push(name);
         });
+
+        socket.on("disconnect", (packetData) => this.removePlayer(socket.id));
+
         this.log(`[Listener] Registered Listeners: ${registered.map(r => r).join(', ')}.`);
       });
     })
@@ -118,6 +157,11 @@ class GameServer {
     http.listen(this.#port, () => {
       this.log(`App is listening on port: ${this.#port}`);
     })
+
+    //Load the world and create it if it does not exist.
+
+    //tick the server every 25 ms
+    setInterval(() => this.tick(), 25);
   }
 
 }

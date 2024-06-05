@@ -39,8 +39,8 @@ class GameServer {
     this.#players.set(player.getId(), player);
   }
 
-  removePlayer(player) {
-    this.#players.remove(player.getId());
+  removePlayer(id) {
+    this.#players.delete(id);
   }
 
   getPlayers() {

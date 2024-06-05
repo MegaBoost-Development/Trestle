@@ -34,7 +34,7 @@ class LoadBalancer {
   }
 
   removeGameServer(gameServer) {
-    this.#gameServers.remove(gameServer.getId());
+    this.#gameServers.delete(gameServer.getId());
   }
 
   getGameServerById(id) {
@@ -55,8 +55,8 @@ class LoadBalancer {
   }
 
   removeProxyPlayer(id) {
-    this.#proxyPlayerNameMap.remove(this.getProxyPlayerById(id).getName());
-    this.#proxyPlayers.remove(id);
+    this.#proxyPlayerNameMap.delete(this.getProxyPlayerById(id).getName());
+    this.#proxyPlayers.delete(id);
   }
 
   log(info) {
