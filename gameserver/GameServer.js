@@ -78,7 +78,7 @@ class GameServer {
   }
 
   getPlayers() {
-    return this.#players.entries();
+    return this.#players;
   }
 
   getPlayerById(id) {

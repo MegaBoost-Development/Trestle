@@ -11,24 +11,19 @@ module.exports = async (ioServer, gameServer, client, packetData) => {
   let width = packetData.width[0];
   let world = CONFIG.gameServer.defaultWorldName;
 
-  let player = new Player(name, id, x, y, speed, height, width, world)
-  gameServer.addPlayer(player);
+  let player = new Player(name, id, x, y, speed, height, width, gameServer.getWorld(world));
   gameServer.log(`${name} connected with id: ${id}.`);
-  client.emit("PlayerId", id);
   gameServer.getWorldMap().forEach((gameWorld, gameWorldName) => {
     client.emit("WorldSendEvent", gameWorldName, gameWorld.getSeed());
-
-    gameWorld.getChunkMap().forEach((chunk, chunkPosIdentity) => {
-      client.emit("AddChunk", chunk.getChunkPosition().getX(), chunk.getChunkPosition().getY(), gameWorldName, chunk.getSaveData());
-    });
-
-
   });
 
-  client.emit("EntityTeleportEvent", id, 0, 0, world);
-
-
+  client.emit("PlayerSuccessfulConnection", id, 1, 1, world);
   client.broadcast.emit("PlayerAllowedConnection", name, id, x, y, world);
+  gameServer.getPlayers().forEach((gamePlayer, gamePlayerId) => {
+    client.emit("PlayerAllowedConnection", gamePlayer.getName(), gamePlayerId, gamePlayer.getLocation().getX(), gamePlayer.getLocation().getY(), gamePlayer.getLocation().getWorld().getName());
+  });
+
+  gameServer.addPlayer(player);
   ioServer.emit("PlayerSendChatMessage", "", `${name} has joined the game!`, 'y');
 
 }
