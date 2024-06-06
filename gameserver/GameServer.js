@@ -156,7 +156,11 @@ class GameServer {
 
         this.log(`[Listener] Registered Listeners: ${registered.map(r => r).join(', ')}.`);
       });
-    })
+    });
+
+    ioServer.engine.on("connection", (rawSocket) => {
+      rawSocket.request = null;
+    });
 
   }
 
