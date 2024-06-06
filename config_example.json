@@ -18,7 +18,36 @@
 
   "gameServer": {
     "maxPlayerCount": 25,
-    "defaultGameWorld": "world"
-  }
+    "defaultWorldName": "world",
+    "biomeIndexes": [
+      {
+        "name": "default",
+        "heightMap": [
+          {
+            "blockClass": "me.flaymed.blocks.SandBlock",
+            "height": 0.2
+          },
+          {
+            "blockClass": "me.flaymed.blocks.GrassBlock",
+            "height": 2
+          },
+          {
+            "blockClass": "me.flaymed.blocks.WaterBlock",
+            "height": 0
+          }
+        ]
+      },
 
+      {
+        "name": "void",
+        "heightMap": [
+          {
+            "blockClass": "me.flaymed.blocks.AirBlock",
+            "height": 2
+          }
+        ]
+      },
+    ]
+
+  }
 }

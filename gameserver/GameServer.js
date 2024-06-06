@@ -7,6 +7,7 @@ const ioServer = require("socket.io")(http);
 const helmet = require("helmet");
 const { io } = require("socket.io-client");
 const FS = require("fs");
+const World = require("./world/World.js");
 
 class GameServer {
 
@@ -17,6 +18,7 @@ class GameServer {
   #maxPlayerCount;
   #worlds;
   #loadBalancerSocket;
+  createNoise2D;
 
   constructor(name, port) {
 
@@ -31,6 +33,8 @@ class GameServer {
         token: CONFIG.loadBalancer.accessToken
       }
     });
+
+    this.createNoise2D = require("open-simplex-noise").makeNoise2D;
 
   }
 
@@ -85,6 +89,10 @@ class GameServer {
     return this.getPlayerCount() >= MAX_SIZE;
   }
 
+  getWorldMap() {
+    return this.#worlds;
+  }
+
   addWorld(world) {
     this.#worlds.set(world.getName(), world);
   }
@@ -108,6 +116,10 @@ class GameServer {
 
   getWorld(name) {
     return this.#worlds.get(name);
+  }
+
+  getDefaultWorld() {
+    return getWorld(CONFIG.gameServer.defaultWorldName);
   }
 
   async registerAppDetails() {
@@ -159,6 +171,7 @@ class GameServer {
     })
 
     //Load the world and create it if it does not exist.
+    World.loadOrGenerateNew(this, CONFIG.gameServer.defaultWorldName, CONFIG.gameServer.biomeIndexes[0]);
 
     //tick the server every 25 ms
     setInterval(() => this.tick(), 25);

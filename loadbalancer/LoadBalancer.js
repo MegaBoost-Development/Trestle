@@ -137,9 +137,16 @@ class LoadBalancer {
 
   }
 
+  async registerBaseGameServers() {
+    for (let i = 0; i < CONFIG.loadBalancer.minServerCount; i++) {
+      this.createGameServer();
+    }
+  }
+
   async start() {
     await this.registerAppDetails();
     await this.registerSocketServer();
+    await this.registerBaseGameServers();
     http.listen(PORT, () => {
       this.log(`App is listening on port: ${PORT}`);
     })

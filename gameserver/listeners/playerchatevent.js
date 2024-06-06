@@ -7,7 +7,7 @@ module.exports = async (ioServer, gameServer, client, packetData) => {
   let message = packetData.message[0];
   let sentAt = packetData.sentAt[0];
 
-  gameServer.log(`[CHAT] ${sentAt} ${name} ${message}`);
+  gameServer.log(`[CHAT] [${sentAt}] ${name} ${message}`);
   ioServer.emit("PlayerSendChatMessage", name, message);
 
 }
