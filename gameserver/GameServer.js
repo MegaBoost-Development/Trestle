@@ -148,7 +148,11 @@ class GameServer {
           registered.push(name);
         });
 
-        socket.on("disconnect", (packetData) => this.removePlayer(socket.id));
+        socket.on("disconnect", (packetData) => {
+          socket.broadcast.emit("PlayerSendChatMessage", "", `${this.getPlayerById(socket.id).getName()} has left the game!`, 'y');
+          socket.broadcast.emit("EntityRemoveEvent", socket.id);
+          this.removePlayer(socket.id);
+        });
 
         this.log(`[Listener] Registered Listeners: ${registered.map(r => r).join(', ')}.`);
       });
