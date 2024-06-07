@@ -87,14 +87,16 @@ class World {
   getBlockClassFromHeight(height) {
     const biomeIndex = this.getBiomeIndex();
 
-    let blockData;
-    for (let i = 0; i < biomeIndex.heightMap.length; i++) {
-      blockData = biomeIndex.heightMap[i];
-      if (height <= blockData.height) return blockData.blockClass;
+    let blockData = biomeIndex.heightMap[0];
+    for (let i = 1; i < biomeIndex.heightMap.length; i++) {
+      if (height <= blockData.height && height <= biomeIndex.heightMap[i].height) blockData = biomeIndex.heightMap[i];
     }
 
-    this.#gameServer.log(`[WORLD] [ERROR] Height: ${height} is not covered by the biome index!`);
-    return null;
+    if (blockData == null) {
+      this.#gameServer.log(`[WORLD] [ERROR] Height: ${height} is not covered by the biome index!`);
+      return null;
+    }
+    return blockData.blockClass;
 
   }
 

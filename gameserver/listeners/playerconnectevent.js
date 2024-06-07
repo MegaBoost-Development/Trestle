@@ -12,7 +12,7 @@ module.exports = async (ioServer, gameServer, client, packetData) => {
   let world = CONFIG.gameServer.defaultWorldName;
 
   let player = new Player(name, id, x, y, speed, height, width, gameServer.getWorld(world));
-  gameServer.log(`${name} connected with id: ${id}.`);
+  gameServer.log(`${name}[${client.handshake.address}] connected with id ${id} at ([${world}]1,1)`);
   gameServer.getWorldMap().forEach((gameWorld, gameWorldName) => {
     client.emit("WorldSendEvent", gameWorldName, gameWorld.getSeed());
   });
