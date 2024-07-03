@@ -1,0 +1,40 @@
+{
+  "defaultWorldName": "world",
+  "biomeIndexes": [
+      {
+        "name": "default",
+        "heightMap": [
+          {
+            "biomeClass": "me.flaymed.biomes.Plains",
+            "worldObjectClasses": ["me.flaymed.blocks.BrownMushroom", "me.flaymed.blocks.PinkFlower"],
+            "blockClass": "me.flaymed.blocks.GrassBlock",
+            "height": 1
+          },
+          {
+            "biomeClass": "me.flaymed.biomes.Beach",
+            "worldObjectClasses": ["me.flaymed.blocks.Log"],
+            "blockClass": "me.flaymed.blocks.SandBlock",
+            "height": -0.5
+          },
+          {
+            "biomeClass": "me.flaymed.biomes.Ocean",
+            "worldObjectClasses": [],
+            "blockClass": "me.flaymed.blocks.WaterBlock",
+            "height": -0.75
+          }
+        ]
+      },
+
+      {
+        "name": "void",
+        "heightMap": [
+          {
+            "biomeClass": "com.megaboost.world.biome.biomes.VoidBiome",
+            "worldObjectClasses": [],
+            "blockClass": "com.megaboost.world.block.blocks.AirBlock",
+            "height": 2
+          }
+        ]
+      }
+    ]
+}

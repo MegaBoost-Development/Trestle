@@ -1,5 +1,5 @@
 const Player = require("../entity/Player.js");
-const CONFIG = require("../../config.json");
+const SETTINGS = require("../settings.json");
 
 module.exports = async (ioServer, gameServer, client, packetData) => {
   let name = packetData.name[0];
@@ -9,7 +9,7 @@ module.exports = async (ioServer, gameServer, client, packetData) => {
   let speed = packetData.speed[0];
   let height = packetData.height[0];
   let width = packetData.width[0];
-  let world = CONFIG.gameServer.defaultWorldName;
+  let world = SETTINGS.defaultWorldName;
 
   let player = new Player(name, id, x, y, speed, height, width, gameServer.getWorld(world));
   gameServer.log(`${name}[${client.handshake.address}] connected with id ${id} at ([${world}]1,1)`);

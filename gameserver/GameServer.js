@@ -1,4 +1,5 @@
 const CONFIG = require("../config.json");
+const SETTINGS = require("./settings.json");
 require('events').EventEmitter.defaultMaxListeners = 0;
 const express = require("express");
 const app = express();
@@ -119,7 +120,7 @@ class GameServer {
   }
 
   getDefaultWorld() {
-    return getWorld(CONFIG.gameServer.defaultWorldName);
+    return getWorld(SETTINGS.defaultWorldName);
   }
 
   async registerAppDetails() {
@@ -179,7 +180,7 @@ class GameServer {
     })
 
     //Load the world and create it if it does not exist.
-    World.loadOrGenerateNew(this, CONFIG.gameServer.defaultWorldName, CONFIG.gameServer.biomeIndexes[0]);
+    World.loadOrGenerateNew(this, SETTINGS.defaultWorldName, SETTINGS.biomeIndexes[0]);
 
     //tick the server every 25 ms
     setInterval(() => this.tick(), 25);
