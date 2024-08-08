@@ -46,6 +46,6 @@ module.exports = async (ioServer, gameServer, client, packetData) => {
   playerLoc.setY(desiredY);
   playerLoc.setWorld(gameServer.getWorld(worldName));
 
-  ioServer.emit("EntityAllowedMove", id, desiredX, desiredY, worldName);
+  ioServer.emit("EntityAllowedMove", packetData.packetSentAt[0], id, desiredX, desiredY, worldName);
 
 }

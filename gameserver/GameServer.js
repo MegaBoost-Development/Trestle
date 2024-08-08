@@ -56,7 +56,7 @@ class GameServer {
   }
 
   getPlayerCount() {
-    return this.getPlayers().size();
+    return this.getPlayers().size;
   }
 
   addPlayer(player) {
@@ -126,7 +126,7 @@ class GameServer {
   async registerAppDetails() {
     app.use(express.urlencoded({extended: true}));
     app.use(express.json());
-    app.get("/", async (req, res) => res.send("ok"));
+    app.get("/", async (req, res) => res.send(`${this.getPlayerCount()}`));
   }
 
   async registerSocketServer() {
