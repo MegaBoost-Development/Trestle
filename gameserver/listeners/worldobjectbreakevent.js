@@ -9,6 +9,10 @@ module.exports = async (ioServer, gameServer, client, packetData) => {
   const material = packetData.material[0];
   const amount = packetData.amount[0];
 
+  const world = gameServer.getWorld(worldName);
+  const block = world.getBlockByBlockPosition(x, y);
+  block.setWorldObject(null);
+
   ioServer.emit("WorldObjectAllowedBreak", x, y, worldName);
   client.emit("InventoryAddItem", id, material, amount);
 

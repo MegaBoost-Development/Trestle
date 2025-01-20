@@ -76,6 +76,38 @@ class World {
     return chunk;
   }
 
+
+  getChunkByWorldPosition(x, y) {
+      let chunkX = Math.floor(x / Chunk.CHUNK_WIDTH);
+      let chunkY = Math.floor(y / Chunk.CHUNK_HEIGHT);
+      //if (x < 0 && x % Chunk.CHUNK_WIDTH != 0) chunkX--;
+      //if (y < 0 && y % Chunk.CHUNK_HEIGHT != 0) chunkY--;
+      return this.getOrNewChunk(new ChunkPosition(chunkX, chunkY, this));
+    }
+
+    getBlockByWorldPosition(x, y) {
+      const chunk = this.getChunkByWorldPosition(x, y);
+
+      let blockY = Math.floor((y - (chunk.getChunkY() * Chunk.CHUNK_HEIGHT))/50);
+      let blockX = Math.floor((x - (chunk.getChunkX() * Chunk.CHUNK_WIDTH))/50);
+
+      //Ensure a valid block is returned.
+      if (blockX >= 15) blockX = 15;
+      if (blockX < 0) blockX = 0;
+      if (blockY >= 15) blockY = 15;
+      if (blockY < 0) blockY = 0;
+
+      return chunk.getBlocks()[blockY][blockX];
+    }
+
+    getBlockByBlockPosition(x, y) {
+      return this.getBlockByWorldPosition(x * 50, y * 50);
+    }
+
+    getChunkByBlockPosition(x, y) {
+      return this.getChunkByWorldPosition(x * 50, y * 50);
+    }
+
   getNoise2D() {
     return this.#noise2d;
   }

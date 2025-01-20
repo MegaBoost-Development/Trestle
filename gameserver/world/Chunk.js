@@ -68,6 +68,14 @@ class Chunk {
     return this.#chunkPosition;
   }
 
+  getChunkX() {
+    return this.#chunkPosition.getX();
+  }
+
+  getChunkY() {
+    return this.#chunkPosition.getY();
+  }
+
   isLoaded() {
     return this.#loaded;
   }
@@ -115,6 +123,21 @@ class Chunk {
     }
 
     if (blockName != "" && index != 0) saveString += `${blockName}-${index},`;
+
+    return saveString;
+
+  }
+
+  getWorldObjectData() {
+    let saveString = "";
+    let block;
+    for (let y = 0; y < 16; y++) {
+      for (let x = 0; x < 16; x++) {
+        block = this.getBlock(x, y);
+        if (block.getWorldObject() == null) continue;
+        saveString += `${block.getWorldObject()}_${block.getBlockX()}_${block.getBlockY()},`;
+      }
+    }
 
     return saveString;
 
