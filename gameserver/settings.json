@@ -1,5 +1,9 @@
 {
   "defaultWorldName": "world",
+  "commandPrefix": "/",
+  "useDefaultSpawn": true,
+  "defaultSpawnX": 1,
+  "defaultSpawnY": 1,
   "biomeIndexes": [
       {
         "name": "default",

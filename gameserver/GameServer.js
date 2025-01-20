@@ -18,6 +18,7 @@ class GameServer {
   #playerNameToId;
   #maxPlayerCount;
   #worlds;
+  #commands;
   #loadBalancerSocket;
   createNoise2D;
 
@@ -29,6 +30,7 @@ class GameServer {
     this.#playerNameToId = new Map();
     this.#maxPlayerCount = CONFIG.gameServer.maxPlayerCount;
     this.#worlds = new Map();
+    this.#commands = new Map();
     this.#loadBalancerSocket = io(`${CONFIG.loadBalancer.protocol}://${CONFIG.loadBalancer.ip}:${CONFIG.loadBalancer.port}`, {
       auth: {
         token: CONFIG.loadBalancer.accessToken
@@ -123,10 +125,33 @@ class GameServer {
     return getWorld(SETTINGS.defaultWorldName);
   }
 
+  getCommand(commandName) {
+    return this.#commands.get(commandName.toLowerCase());
+  }
+
   async registerAppDetails() {
     app.use(express.urlencoded({extended: true}));
     app.use(express.json());
     app.get("/", async (req, res) => res.send(`${this.getPlayerCount()}`));
+  }
+
+  async registerCommands() {
+    FS.readdir("./gameserver/command/commands/", (e, commands) => {
+      if (e) return this.log(`Error whilst reading command dir: ${e}`);
+      if (!commands) return this.log(`Error whilst reading command directory. Is it empty?`);
+
+      let registered = [];
+      commands.forEach((file) => {
+        if (!file.endsWith(".js")) return;
+        let CommandClazz = require(`./command/commands/${file}`);
+        let command = new CommandClazz();
+        this.#commands.set(command.getName(), command);
+        registered.push(command.getName());
+      });
+
+      this.log(`[Command] Registered Commands: ${registered.map(r => r).join(', ')}.`);
+
+    });
   }
 
   async registerSocketServer() {
@@ -140,7 +165,7 @@ class GameServer {
 
         let registered = [];
         listeners.forEach((file) => {
-          if (!file.endsWith(".js")) return
+          if (!file.endsWith(".js")) return;
           let listener = require(`./listeners/${file}`);
           let name = file.split(".")[0];
 
@@ -174,6 +199,7 @@ class GameServer {
   async start() {
     await this.registerAppDetails();
     await this.registerSocketServer();
+    await this.registerCommands();
     await this.registerLoadBalancerConnection();
     http.listen(this.#port, () => {
       this.log(`App is listening on port: ${this.#port}`);
