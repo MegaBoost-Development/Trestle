@@ -25,8 +25,8 @@ module.exports = async (ioServer, gameServer, client, packetData) => {
   //send the player the initial chunk they'll spawn in...
   //the game will immediately request the surrounding chunks but this just ensures a FAST load into the world.
   const chunk = gameServer.getWorld(worldName).getChunkByBlockPosition(x, y);
-  client.emit("AddChunk", chunk.getChunkX(), chunk.getChunkY(), worldName, chunk.getSaveData(), chunk.getWorldObjectData());
-  
+  client.emit("AddChunk", chunk.getChunkX(), chunk.getChunkY(), worldName, chunk.getSaveData(), chunk.getWorldObjectData(), chunk.getBiomeData());
+
   //tell the player they're allowed to connect
   //this gives the player their network id
   client.emit("PlayerSuccessfulConnection", id, x, y, worldName);

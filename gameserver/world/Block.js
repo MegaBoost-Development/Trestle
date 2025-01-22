@@ -9,8 +9,9 @@ class Block {
   #chunkX;
   #chunkY;
   #blockClass;
+  #biomeClass;
 
-  constructor(world, blockX, blockY, chunkX, chunkY, blockClass) {
+  constructor(world, blockX, blockY, chunkX, chunkY, blockClass, biomeClass) {
     this.#worldObject = null;
     this.#world = world;
     this.#blockX = blockX;
@@ -18,6 +19,7 @@ class Block {
     this.#chunkX = chunkX;
     this.#chunkY = chunkY;
     this.#blockClass = blockClass;
+    this.#biomeClass = biomeClass;
   }
 
   setWorldObject(worldObject) {
@@ -54,6 +56,14 @@ class Block {
 
   setBlockClass(blockClass) {
     this.#blockClass = blockClass;
+  }
+
+  getBiomeClass() {
+    return this.#biomeClass;
+  }
+
+  setBiomeClass(biomeClass) {
+    this.#biomeClass = biomeClass;
   }
 
 }

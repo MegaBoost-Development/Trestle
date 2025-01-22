@@ -116,7 +116,7 @@ class World {
     return this.#biomeIndex;
   }
 
-  getBlockClassFromHeight(height) {
+  getBlockDataFromHeight(height) {
     const biomeIndex = this.getBiomeIndex();
 
     let blockData = biomeIndex.heightMap[0];
@@ -128,7 +128,7 @@ class World {
       this.#gameServer.log(`[WORLD] [ERROR] Height: ${height} is not covered by the biome index!`);
       return null;
     }
-    return blockData.blockClass;
+    return [blockData.blockClass, blockData.biomeClass];
 
   }
 

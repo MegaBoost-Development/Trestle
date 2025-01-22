@@ -13,6 +13,6 @@ module.exports = async (ioServer, gameServer, client, packetData) => {
   }
 
   let chunk = world.getOrNewChunk(new ChunkPosition(chunkX, chunkY, world));
-  client.emit("AddChunk", chunkX, chunkY, worldName, chunk.getSaveData(), chunk.getWorldObjectData());
+  client.emit("AddChunk", chunkX, chunkY, worldName, chunk.getSaveData(), chunk.getWorldObjectData(), chunk.getBiomeData());
 
 }

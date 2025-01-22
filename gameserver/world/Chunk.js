@@ -36,6 +36,7 @@ class Chunk {
     let nr;
     let dist;
     let noise;
+    let blockData;
     for (let chunkY = 0; chunkY < 16; chunkY++) {
       let generatedBlocks = [];
       for (let chunkX = 0; chunkX < 16; chunkX++) {
@@ -49,7 +50,8 @@ class Chunk {
 
         dist = this.#norm(Math.abs(x - (offsetX / 2.0)) / (offsetX / 2.0), Math.abs(y - (offsetY / 2.0)) / (offsetY / 2.0));
         noise = nh + (nr * 0.5) + (dist > (1.0 - (32 * (1.0 / offsetX))) ? -0.3 : 0.0);
-        generatedBlocks.push(new Block(world, blockX, blockY, chunkX, chunkY, world.getBlockClassFromHeight(noise)));
+        blockData = world.getBlockDataFromHeight(noise);
+        generatedBlocks.push(new Block(world, blockX, blockY, chunkX, chunkY, blockData[0], blockData[1]));
       }
       this.#blocks.push(generatedBlocks);
     }
@@ -127,6 +129,21 @@ class Chunk {
     return saveString;
 
   }
+
+  getBiomeData() {
+    let saveString = "";
+    let block;
+    for (let y = 0; y < 16; y++) {
+      for (let x = 0; x < 16; x++) {
+        block = this.getBlock(x, y);
+        if (block.getBiomeClass() == null) continue;
+        saveString += `${block.getBiomeClass()}_${block.getBlockX()}_${block.getBlockY()},`;
+      }
+    }
+
+    return saveString;
+
+  }  
 
   getWorldObjectData() {
     let saveString = "";

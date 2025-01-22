@@ -25,7 +25,7 @@ class TeleportCommand extends Command {
 
     //send the player the chunk they're teleporting to incase they don't already have it.
     const chunk = world.getChunkByBlockPosition(x, y);
-    client.emit("AddChunk", chunk.getChunkX(), chunk.getChunkY(), worldName, chunk.getSaveData(), chunk.getWorldObjectData());
+    client.emit("AddChunk", chunk.getChunkX(), chunk.getChunkY(), worldName, chunk.getSaveData(), chunk.getWorldObjectData(), chunk.getBiomeData());
 
     //teleport the player
     ioServer.emit("EntityTeleportEvent", client.id, x, y, worldName);
