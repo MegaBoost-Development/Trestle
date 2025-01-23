@@ -129,6 +129,10 @@ class GameServer {
     return this.#commands.get(commandName.toLowerCase());
   }
 
+  getCommands() {
+    return this.#commands;
+  }
+
   async registerAppDetails() {
     app.use(express.urlencoded({extended: true}));
     app.use(express.json());
