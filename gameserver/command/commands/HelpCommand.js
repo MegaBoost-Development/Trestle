@@ -9,9 +9,11 @@ class HelpCommand extends Command {
   execute(ioServer, gameServer, client, args) {
 
     client.emit("PlayerSendChatMessage", "", "Help is here!")
-    gameServer.getCommands().forEach((name, command) => {
+    gameServer.getCommands().forEach((command, name) => {
       client.emit("PlayerSendChatMessage", "", ` - ${command.getUsage()} | ${command.getDescription()}`);
     });
 
   }
 }
+
+module.exports = HelpCommand;
