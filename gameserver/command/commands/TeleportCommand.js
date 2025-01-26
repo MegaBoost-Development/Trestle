@@ -18,7 +18,11 @@ class TeleportCommand extends Command {
 
     //set the player's location
     const playerLoc = player.getLocation();
-    const world = gameServer.getWorld(worldName);
+    let world = gameServer.getWorld(worldName);
+    if (world == null) {
+      client.emit("PlayerSendChatMessage", "", `Invalid world name: ${worldName}`);
+      return;
+    }
     playerLoc.setX(x * 50);
     playerLoc.setY(y * 50);
     playerLoc.setWorld(world);
