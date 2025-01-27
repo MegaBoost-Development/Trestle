@@ -122,7 +122,7 @@ class GameServer {
   }
 
   getDefaultWorld() {
-    return getWorld(SETTINGS.defaultWorldName);
+    return this.getWorld(SETTINGS.defaultWorldName);
   }
 
   getCommand(commandName) {

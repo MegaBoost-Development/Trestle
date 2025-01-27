@@ -139,7 +139,7 @@ class LoadBalancer {
 
   async registerBaseGameServers() {
     for (let i = 0; i < CONFIG.loadBalancer.minServerCount; i++) {
-      this.createGameServer();
+      await this.createGameServer();
     }
   }
 
