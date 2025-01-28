@@ -90,7 +90,7 @@ class LoadBalancer {
         break;
       }
 
-      if (playableServer != 0) {
+      if (playableServer !== 0) {
         res.send(`${playableServer}`);
         return;
       }
@@ -110,7 +110,7 @@ class LoadBalancer {
     ioServer.use((socket, next) => {
       const token = socket.handshake.auth.token;
 
-      if (token != CONFIG.loadBalancer.accessToken) next(new Error("Invalid credentials!"));
+      if (token !== CONFIG.loadBalancer.accessToken) next(new Error("Invalid credentials!"));
       else next();
     });
 

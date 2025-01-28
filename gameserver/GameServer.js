@@ -9,6 +9,9 @@ const helmet = require("helmet");
 const { io } = require("socket.io-client");
 const FS = require("fs");
 const World = require("./world/World.js");
+const TICK_LENGTH_MS = 1000 / 20; //Looking for 20 tps, denominator is the rate
+let previousTick = Date.now();
+let actualTicks = 0;
 
 class GameServer {
 
@@ -41,8 +44,28 @@ class GameServer {
 
   }
 
-  tick() {
+  #runGameLoop() {
+    let now = Date.now();
+    actualTicks++
+    if (previousTick + TICK_LENGTH_MS <= now) {
+      let delta = (now - previousTick) / 1000;
+      previousTick = now;
 
+      this.#tick(delta);
+
+      //this.log(`delta, ${delta}, (target: + ${TICK_LENGTH_MS} ms) node ticks: ${actualTicks}`);
+      actualTicks = 0;
+    }
+
+    if (Date.now() - previousTick < TICK_LENGTH_MS - 16) {
+      setTimeout(this.#runGameLoop.bind(this));
+    } else {
+      setImmediate(this.#runGameLoop.bind(this));
+    }
+  }
+
+  #tick(deltaTime) {
+    //this.log(`tick: ${deltaTime}`);
   }
 
   log(info) {
@@ -212,8 +235,8 @@ class GameServer {
     //Load the world and create it if it does not exist.
     World.loadOrGenerateNew(this, SETTINGS.defaultWorldName, SETTINGS.biomeIndexes[0]);
 
-    //tick the server every 25 ms
-    setInterval(() => this.tick(), 25);
+    this.#runGameLoop();
+
   }
 
 }
